@@ -3,14 +3,14 @@
 
 // only need to include foreign keys, primary keys generate automatically
 // users
-const user = [
+const users = [
     {name: 'User1', email: 'User1@gmail.com', password: 'earlGrey'},
     {name: 'User2', email: 'User2@gmail.com', password: 'hamburglar'},
     {name: 'User3', email: 'User3@gmail.com', password: 'bestChili'}
 ]
 
 // recepies
-const recipe = [
+const recipes = [
     {name: 'Salad', description: 'Lettuce'},
     {name: 'Risotto', description: 'Rice'},
     {name: 'Stew', description: 'Meat and potatoes'}
@@ -24,4 +24,4 @@ const ingredients = [
 ]
 
 // export mock data variables for use elsewhere
-module.exports= {user, recipe, ingredients}
+module.exports= {users, recipes, ingredients}
