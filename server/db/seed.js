@@ -41,8 +41,9 @@ const createTables = async () => {
         CREATE TABLE users(
             "userId" SERIAL PRIMARY KEY,
             "recipeId" INTEGER REFERENCES recepie("recepieId") NOT NULL,
-            name varchar(30) NOT NULL
-            email varchar(30) NOT NULL
+            name varchar(30) NOT NULL,
+            email varchar(30) NOT NULL,
+            passowrd varchar(12) NOT NULL
         );
         `)
         console.log('Tables built!')
@@ -57,7 +58,7 @@ const createInitialUsers = async () => {
     try {
         for (const user of users) {
             const {
-                rows: [users]
+                rows: [user]
             } = await client.query(`
                 INSERT INTO user("recipeId", name, email)
                 VALUES($1, $2, $3);
@@ -75,7 +76,7 @@ const createInitialRecipes = async () => {
     try {
         for (const recipe of recipes) {
             const {
-                rows: [recipes]
+                rows: [recipe]
             } = await client.query(`
                 INSERT INTO recipe("ingredientId", name, description)
                 VALUES($1, $2, $3);
