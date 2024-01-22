@@ -9,11 +9,11 @@ const dropTables = async () => {
     try {
         console.log('Starting to drop tables...')
         await client.query(`
-        DROP TABLE IF EXISTS user;
-        DROP TABLE IF EXISTS recipe;
-        DROP TABLE IF EXISTS ingredients
+        DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS recipes;
+        DROP TABLE IF EXISTS ingredients CASCADE;
         `)
-        console.log('Tables dropped')
+        console.log('Tables dropped!')
     } catch (error) {
         console.log('Error dropping tables: ', error)
     }
@@ -24,26 +24,26 @@ const dropTables = async () => {
 // for foreign keys REFERENCES table("primary key")
 const createTables = async () => {
     try {
-        console.log('building tables...')
+        console.log('Building tables...')
         await client.query(`
         CREATE TABLE ingredients (
-            "ingredientId" SERIAL PRIAMRY KEY,
+            "ingredientId" SERIAL PRIMARY KEY,
             protein varchar (20) NOT NULL,
             ingredient1 varchar(20) NOT NULL,
             ingredient2 varchar(20) NOT NULL
         );
-        CREATE TABLE recepies (
+        CREATE TABLE recipes (
             "recipeId" SERIAL PRIMARY KEY,
-            "ingredientId" INTEGER REFERENCES ingredient("ingredientId") NOT NULL,
+            "ingredientId" INTEGER REFERENCES ingredients("ingredientId") NOT NULL,
             name varchar(50) NOT NULL,
             description text NOT NULL
         );
         CREATE TABLE users(
             "userId" SERIAL PRIMARY KEY,
-            "recipeId" INTEGER REFERENCES recepie("recepieId") NOT NULL,
+            "recipeId" INTEGER REFERENCES recipes("recipeId") NOT NULL,
             name varchar(30) NOT NULL,
             email varchar(30) NOT NULL,
-            passowrd varchar(12) NOT NULL
+            password varchar(12) NOT NULL
         );
         `)
         console.log('Tables built!')
@@ -53,42 +53,6 @@ const createTables = async () => {
 }
 
 // Populate tables to have data later
-// Create users
-const createInitialUsers = async () => {
-    try {
-        for (const user of users) {
-            const {
-                rows: [user]
-            } = await client.query(`
-                INSERT INTO user("recipeId", name, email)
-                VALUES($1, $2, $3);
-            `, [user.recipeId, user.name, user.email]
-            )
-        }
-        console.log("created users")
-    } catch (error) {
-        throw error
-    }
-}
-
-// Create recipes
-const createInitialRecipes = async () => {
-    try {
-        for (const recipe of recipes) {
-            const {
-                rows: [recipe]
-            } = await client.query(`
-                INSERT INTO recipe("ingredientId", name, description)
-                VALUES($1, $2, $3);
-            `, [recipe.ingredientId, recipe.name, recipe.description]
-            )
-        }
-        console.log("created recipes")
-    } catch (error) {
-        throw error
-    }
-}
-
 // Create ingredients
 const createInitialIngredients = async () => {
     try {
@@ -106,6 +70,43 @@ const createInitialIngredients = async () => {
         throw error
     }
 }
+
+// Create recipes
+const createInitialRecipes = async () => {
+    try {
+        for (const recipe of recipes) {
+            const {
+                rows: [recipes]
+            } = await client.query(`
+                INSERT INTO recipes("ingredientId", name, description)
+                VALUES($1, $2, $3);
+            `, [recipe.ingredientId, recipe.name, recipe.description]
+            )
+        }
+        console.log("created recipes")
+    } catch (error) {
+        throw error
+    }
+}
+
+// Create users
+const createInitialUsers = async () => {
+    try {
+        for (const user of users) {
+            const {
+                rows: [users]
+            } = await client.query(`
+                INSERT INTO users("recipeId", name, email, password)
+                VALUES($1, $2, $3, $4);
+            `, [user.recipeId, user.name, user.email, user.password]
+            )
+        }
+        console.log("created users")
+    } catch (error) {
+        throw error
+    }
+}
+
 // Call all functions to build the db
 const buildDb = async () => {
     try {
@@ -116,10 +117,10 @@ const buildDb = async () => {
         await dropTables()
         await createTables()
 
-        await createInitialUsers()
-        await createInitialRecipes()
         await createInitialIngredients()
-
+        await createInitialRecipes()
+        await createInitialUsers()
+        
     } catch (error) {
         console.error(error)
     } finally {
