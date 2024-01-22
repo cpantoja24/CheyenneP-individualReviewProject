@@ -5,10 +5,10 @@ const util = require('util');
 async function createUser(body) {
     try {
         const { rows: [user] } = await client.query(`
-        INSERT INTO users(name, email)
+        INSERT INTO users(name, email, password)
         VALUES($1, $2)
         RETURNING *;
-        `, [body.name, body.email]);
+        `, [body.name, body.email, body.password]);
         return user;
     } catch (error) {
         throw error;
