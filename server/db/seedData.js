@@ -4,16 +4,16 @@
 // only need to include foreign keys, primary keys generate automatically
 // users
 const users = [
-    {name: 'User1', email: 'User1@gmail.com', password: 'earlGrey'},
-    {name: 'User2', email: 'User2@gmail.com', password: 'hamburglar'},
-    {name: 'User3', email: 'User3@gmail.com', password: 'bestChili'}
+    {recipeId: 1, name: 'User1', email: 'User1@gmail.com', password: 'earlGrey'},
+    {recipeId: 3, name: 'User2', email: 'User2@gmail.com', password: 'hamburglar'},
+    {recipeId: 2, name: 'User3', email: 'User3@gmail.com', password: 'bestChili'}
 ]
 
 // recepies
 const recipes = [
-    {name: 'Salad', description: 'Lettuce'},
-    {name: 'Risotto', description: 'Rice'},
-    {name: 'Stew', description: 'Meat and potatoes'}
+    {ingredientId: 1, name: 'Salad', description: 'Lettuce'},
+    {ingredientId: 2, name: 'Risotto', description: 'Rice'},
+    {ingredientId: 3, name: 'Stew', description: 'Meat and potatoes'}
 ]
 
 // ingredients
