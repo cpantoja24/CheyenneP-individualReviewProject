@@ -1,8 +1,8 @@
-const client = require('./client');
+const client = require('../client');
 const util = require('util');
 
 // GET - /api/ingredients - get all ingredients
-async function getIngredients() {
+async function getAllIngredients() {
     try {
         const { rows: ingredients } = await client.query(`SELECT * FROM ingredients`);
         return ingredients;
@@ -39,7 +39,7 @@ async function createIngredient(body) {
 }
 
 module.exports = {
-    getIngredients,
+    getAllIngredients,
     getIngredientById,
     createIngredient
 }

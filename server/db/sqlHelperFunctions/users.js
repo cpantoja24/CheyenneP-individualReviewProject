@@ -1,4 +1,4 @@
-const client = require('./client');
+const client = require('../client');
 const util = require('util');
 
 // POST - api/users/register - create a new user
