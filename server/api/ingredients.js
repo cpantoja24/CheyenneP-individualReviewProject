@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 // const { authRequired } = require('./utils');
 
-const { getAllIngredients, getIngredientById, createIngredient, deleteIngredientById } = require('../db/sqlHelperFunctions/ingredients');
+const { getAllIngredients, getIngredientById, createIngredient, updateIngredient, deleteIngredientById } = require('../db/sqlHelperFunctions/ingredients');
 
 // GET - /api/ingredients - get all ingredients
 router.get('/', async (req, res, next) => {
@@ -27,7 +27,18 @@ router.get('/:id', async (req, res, next) => {
 // POST - /api/ingredients - create a new ingredient
 router.post('/', async (req, res, next) => {
     try {
-        const ingredient = await createIngredient(req.body);
+        const {protein, ingredient1, ingredient2} = req.body
+        const ingredient = await createIngredient({protein, ingredient1, ingredient2});
+        res.send(ingredient);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// PUT - /api/ingredient/:id - update a single ingredient by id
+router.put('/:id', async (req, res, next) => {
+    try {
+        const ingredient = await updateIngredient(req.params.id, req.body);
         res.send(ingredient);
     } catch (err) {
         next(err);

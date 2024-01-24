@@ -25,6 +25,20 @@ async function getRecipeById(id) {
     }
 }
 
+// POST - /api/recipes - create a new recipe
+async function createRecipe(body) {
+    try {
+        const { rows: [recipe] } = await client.query(`
+        INSERT INTO recipes(name, description, "ingredientId")
+        VALUES($1, $2, $3)
+        RETURNING *;
+        `, [body.name, body.description, body.ingredientId]);
+        return recipe;
+    } catch (error) {
+        throw error;
+    }
+}
+
 // PUT - /api/recipes/:id - update a single recipe by id
 async function updateRecipe(id, fields = {}) {
     const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
@@ -65,6 +79,7 @@ async function deleteRecipe(id) {
 module.exports = {
     getAllRecipes,
     getRecipeById,
+    createRecipe,
     updateRecipe,
     deleteRecipe
 }

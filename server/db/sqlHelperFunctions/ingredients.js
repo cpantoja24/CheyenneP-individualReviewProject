@@ -37,6 +37,28 @@ async function createIngredient(body) {
         throw error;
     }
 }
+// PUT - /api/ingredients/:id - update a single ingredient by id
+async function updateIngredient(id, fields = {}) {
+    const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
+
+    // return early if this is called without fields
+    if (setString.length === 0) {
+        return;
+    }
+
+    try {
+        const { rows: [ingredient] } = await client.query(`
+      UPDATE ingredients
+      SET ${setString}
+      WHERE "ingredientId"=${id}
+      RETURNING *;
+    `, Object.values(fields));
+
+        return ingredient;
+    } catch (error) {
+        throw error;
+    }
+}
 
 // DELETE - /api/ingredients/:id - delete a single ingredient by id
 async function deleteIngredientById(id) {
@@ -56,5 +78,6 @@ module.exports = {
     getAllIngredients,
     getIngredientById,
     createIngredient,
+    updateIngredient,
     deleteIngredientById
 }
