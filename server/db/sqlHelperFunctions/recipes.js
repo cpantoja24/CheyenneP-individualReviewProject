@@ -17,7 +17,7 @@ async function getRecipeById(id) {
     try {
         const { rows: [recipe] } = await client.query(`
             SELECT * FROM recipes
-            WHERE id = $1;
+            WHERE "recipeId" = $1;
         `, [id]);
         return recipe;
     } catch (error) {
@@ -38,7 +38,7 @@ async function updateRecipe(id, fields = {}) {
         const { rows: [recipe] } = await client.query(`
       UPDATE recipes
       SET ${setString}
-      WHERE id=${id}
+      WHERE "recipeId"=${id}
       RETURNING *;
     `, Object.values(fields));
 
@@ -53,7 +53,7 @@ async function deleteRecipe(id) {
     try {
         const { rows: [recipe] } = await client.query(`
       DELETE FROM recipes
-      WHERE id=$1
+      WHERE "recipeId"=$1
       RETURNING *;
     `, [id]);
         return recipe;

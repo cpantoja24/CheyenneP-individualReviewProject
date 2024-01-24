@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { authRequired } = require('./utils');
+// const { authRequired } = require('./utils');
 
-const { getAllIngredients, getIngredientById, createIngredient } = require('../db/sqlHelperFunctions/ingredients');
+const { getAllIngredients, getIngredientById, createIngredient, deleteIngredientById } = require('../db/sqlHelperFunctions/ingredients');
 
 // GET - /api/ingredients - get all ingredients
 router.get('/', async (req, res, next) => {
@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// GET - /api/ingredients/:id - get a single ingredient by id
+// GET - /api/ingredients/:ingredientid - get a single ingredient by id
 router.get('/:id', async (req, res, next) => {
     try {
         const ingredient = await getIngredientById(req.params.id);
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // POST - /api/ingredients - create a new ingredient
-router.post('/', authRequired, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const ingredient = await createIngredient(req.body);
         res.send(ingredient);
@@ -34,4 +34,13 @@ router.post('/', authRequired, async (req, res, next) => {
     }
 });
 
+// DELETE - /api/ingredients/:id - delete a single ingredient by id
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const ingredient = await deleteIngredientById(req.params.id);
+        res.send(ingredient);
+    } catch (error) {
+        next(error);
+    }
+});
 module.exports = router;

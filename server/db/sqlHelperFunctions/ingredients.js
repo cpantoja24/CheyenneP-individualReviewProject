@@ -1,5 +1,5 @@
 const client = require('../client');
-const util = require('util');
+// const util = require('util');
 
 // GET - /api/ingredients - get all ingredients
 async function getAllIngredients() {
@@ -16,7 +16,7 @@ async function getIngredientById(id) {
     try {
         const { rows: [ingredient] } = await client.query(`
             SELECT * FROM ingredients
-            WHERE id = $1;
+            WHERE "ingredientId" = $1;
         `, [id]);
         return ingredient;
     } catch (error) {
@@ -31,7 +31,21 @@ async function createIngredient(body) {
         INSERT INTO ingredients(protein, ingredient1, ingredient2)
         VALUES($1, $2, $3)
         RETURNING *;
-        `, [body.protein, body.ingredient1, body.ingredient1]);
+        `, [body.protein, body.ingredient1, body.ingredient2]);
+        return ingredient;
+    } catch (error) {
+        throw error;
+    }
+}
+
+// DELETE - /api/ingredients/:id - delete a single ingredient by id
+async function deleteIngredientById(id) {
+    try {
+        const { rows: [ingredient] } = await client.query(`
+      DELETE FROM ingredients
+      WHERE "ingredientId"=$1
+      RETURNING *;
+    `, [id]);
         return ingredient;
     } catch (error) {
         throw error;
@@ -41,5 +55,6 @@ async function createIngredient(body) {
 module.exports = {
     getAllIngredients,
     getIngredientById,
-    createIngredient
+    createIngredient,
+    deleteIngredientById
 }
