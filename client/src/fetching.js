@@ -11,6 +11,17 @@ export const fetchAllRecipes = async () => {
     }
 }
 
+export const fetchAllIngredients = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/ingredients`)
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 export const fetchSingleRecipe = async (recipeId) => {
     try {
         const response = await fetch(`${BASE_URL}/${recipeId}`);
