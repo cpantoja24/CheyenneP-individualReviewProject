@@ -10,14 +10,13 @@ body {
   margin-right: 10px;
 }
 
-
-.recipe {
+.allCards {
   display: flex;
   flex-flow: row wrap;
   text-align: center;
 }
 
-.recipeCard {
+.singleCard {
   width: 200px;
   height: 200px;
   margin: 10px;
