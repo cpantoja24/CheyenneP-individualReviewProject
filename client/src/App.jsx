@@ -5,7 +5,6 @@ function App() {
   return (
     <>
       <div><NavBar/> </div>
-      <p>Welcome</p>
     </>
   )
 }
