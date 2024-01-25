@@ -28,7 +28,7 @@ const recipesApi = createApi({
   }),
 });
 
-// Export hooks for each endpoint - in this case, a React hook that triggers the fetchPlayers query
+// Export hooks for each endpoint - in this case, a React hook that triggers the fetchAllRecipes query
 const { useGetRecipesQuery } = recipesApi;
 
 // Create a Redux store
@@ -65,13 +65,14 @@ export default function Recipes() {
         </form>
       </div>
       
-      <div className="recipe">
-        {recipes.filter((recipe) => {
-          return search.toLowerCase() === '' ? recipe : recipe.title.toLowerCase().includes(search)
+      <div className="allCards">
+        {data.filter((recipe) => {
+          return search.toLowerCase() === '' ? recipe : recipe.name.toLowerCase().includes(search)
         }).map((recipe) => (
-          <div key={recipe.recipeId} className="recipeCard">
+          <div key={recipe.recipeId} className="singleCard">
             <h3>{recipe.name}</h3>
             <p>{recipe.description}</p>
+            <br />
             <button onClick={() => {
               navigate(`/recipes/${recipe.recipeId}`)
             }}>See Details</button>
