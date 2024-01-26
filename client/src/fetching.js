@@ -1,5 +1,9 @@
 const BASE_URL = `http://localhost:8080/api`;
 
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+
 export const fetchAllRecipes = async () => {
     try {
         const response = await fetch(`${BASE_URL}/recipes`)
@@ -23,19 +27,42 @@ export const fetchAllIngredients = async () => {
 }
 
 export const fetchSingleRecipe = async (recipeId) => {
-    try {
-        const response = await fetch(`${BASE_URL}/${recipeId}`);
-        const singleRecipe = await response.json();
-        console.log(singleRecipe);
+    useEffect(() => {
+        async function fetchSingleRecipe() {
+            try {
+                const response = await fetch(`http://localhost:8080/api/recipes/${recipeId}`);
+                const recipe = await response.json();
+                setRecipe(recipe)
 
-    } catch (err) {
-        console.error(`Oh no, trouble fetching recipe #${recipeId}!`, err);
-    }
+            } catch (error) {
+                console.error('Uh oh, trouble fetching single recipe!', error);
+            }
+        }
+        fetchSingleRecipe()
+        
+    }, [])
+};
+
+export function SingleIngredient() {
+    const { ingredientId } = useParams()
+
+    useEffect(() => {
+        async function fetchSingleIngredient() {
+            try {
+                const response = await fetch(`http://localhost:8080/api/ingredients/${ingredientId}`);
+                const ingredient = await response.json();
+                console.log(ingredient)
+
+            } catch (error) {
+                console.error('Uh oh, trouble fetching single ingredient!', error);
+            }
+        }
+        fetchSingleIngredient()
+    }, [])
 };
 
 export const addNewRecipe = async (recipe) => {
     try {
-    
         const response = await fetch(`${BASE_URL}/recipes`, {
             method: "POST",
             headers: {
@@ -59,6 +86,9 @@ export const removeRecipe = async (recipeId) => {
         const response = await fetch(`${BASE_URL}/${recipeId}`, {
             method: "DELETE"
         });
+        const result = await response.json();
+        console.log(result);
+        return result
     } catch (err) {
         console.error(
             `Whoops, trouble removing recipe #${recipeId}!`,
