@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function CreateRecipeForm(recipe) {
+export default function CreateRecipeForm({recipe}) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [ingredientId, setIngredientId] = useState('');
@@ -14,14 +14,16 @@ export default function CreateRecipeForm(recipe) {
                 headers: {
                     "Content-Type": "application/json"
                 }, body: JSON.stringify({
-                    name: recipe.name,
-                    description: recipe.description,
-                    ingredientId: recipe.ingredientId
+                    name: name,
+                    description: description,
+                    ingredientId: ingredientId
                 })
             });
             const result = await response.json();
-            console.log(result);
+            window.location.reload();
             return result
+          
+
         } catch (err) {
             console.error(err);
         }
@@ -35,9 +37,9 @@ export default function CreateRecipeForm(recipe) {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <input placeholder="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                <input placeholder="description" type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-                <input placeholder="ingredientId" type="number" value={ingredientId} onChange={(e) => setIngredientId(e.target.value)} />
+                <input placeholder="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                <input placeholder="Description" type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <input placeholder="Ingredient #" type="number" value={ingredientId} onChange={(e) => setIngredientId(e.target.value)} />
                 <button type="submit">Create Recipe</button>
             </form>
         </>
