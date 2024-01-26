@@ -4,7 +4,6 @@ export default function Ingredients() {
     const [ingredient, setIngredient] = useState({})
     const [search, setSearch] = useState('')
   
-
     useEffect(() => {
         async function fetchAllIngredients() {
             try {
@@ -24,7 +23,7 @@ export default function Ingredients() {
             <br />
             <div>
             <form>
-                <input placeholder="Type recipe name here..."
+                <input placeholder="Type protein name here..."
                 onChange={(e) => setSearch(e.target.value)} />
             </form>
             </div>
