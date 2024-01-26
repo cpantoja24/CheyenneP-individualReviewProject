@@ -18,7 +18,17 @@ body {
 
 .singleCard {
   width: 200px;
-  height: 200px;
+  height: 350px;
+  margin: 10px;
+  background-color: rgb(125, 166, 213);
+  border: dashed;
+  position: relative;
+  transition: transform 0.3s; 
+}
+
+.singleIngredient {
+  width: 200px;
+  height: 225px;
   margin: 10px;
   background-color: rgb(125, 166, 213);
   border: dashed;
