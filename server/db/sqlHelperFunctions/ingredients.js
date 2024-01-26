@@ -11,7 +11,7 @@ async function getAllIngredients() {
     }
 }
 
-// GET - /api/ingredients/:id - get a single ingredient by id
+// GET - /api/ingredients/:ingredientId - get a single ingredient by id
 async function getIngredientById(id) {
     try {
         const { rows: [ingredient] } = await client.query(`
@@ -37,7 +37,7 @@ async function createIngredient(body) {
         throw error;
     }
 }
-// PUT - /api/ingredients/:id - update a single ingredient by id
+// PUT - /api/ingredients/:ingredientId - update a single ingredient by id
 async function updateIngredient(id, fields = {}) {
     const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
 
@@ -60,7 +60,7 @@ async function updateIngredient(id, fields = {}) {
     }
 }
 
-// DELETE - /api/ingredients/:id - delete a single ingredient by id
+// DELETE - /api/ingredients/:ingredientId - delete a single ingredient by id
 async function deleteIngredientById(id) {
     try {
         const { rows: [ingredient] } = await client.query(`

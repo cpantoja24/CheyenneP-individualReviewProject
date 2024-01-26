@@ -12,7 +12,7 @@ async function getAllRecipes() {
     }
 }
 
-// GET - /api/recipes/:id - get a single recipe by id
+// GET - /api/recipes/:recipeId - get a single recipe by id
 async function getRecipeById(id) {
     try {
         const { rows: [recipe] } = await client.query(`
@@ -39,7 +39,7 @@ async function createRecipe(body) {
     }
 }
 
-// PUT - /api/recipes/:id - update a single recipe by id
+// PUT - /api/recipes/:recipeId - update a single recipe by id
 async function updateRecipe(id, fields = {}) {
     const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
 
@@ -62,7 +62,7 @@ async function updateRecipe(id, fields = {}) {
     }
 }
 
-// DELETE - /api/recipes/:id - delete a single recipe by id
+// DELETE - /api/recipes/:recipeId - delete a single recipe by id
 async function deleteRecipe(id) {
     try {
         const { rows: [recipe] } = await client.query(`

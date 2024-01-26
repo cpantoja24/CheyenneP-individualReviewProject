@@ -12,8 +12,8 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// GET - /api/recipes/:id - get a single recipe by id
-router.get('/:id', async (req, res, next) => {
+// GET - /api/recipes/:recipeId - get a single recipe by id
+router.get('/:recipeId', async (req, res, next) => {
     try {
         const recipe = await getRecipeById(req.params.id);
         res.send(recipe);
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // POST - /api/recipes - create a new recipe
-router.post('/', async (req, res, next) => {
+router.post('/recipes', async (req, res, next) => {
     try {
         const {name, description, ingredientId} = req.body
         const recipe = await createRecipe({name, description, ingredientId});
@@ -33,8 +33,8 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-// PUT - /api/recipes/:id - update a single recipe by id
-router.put('/:id', async (req, res, next) => {
+// PUT - /api/recipes/:recipeId - update a single recipe by id
+router.put('/recipes/:recipeId', async (req, res, next) => {
     try {
         const recipe = await updateRecipe(req.params.id, req.body);
         res.send(recipe);
@@ -43,11 +43,11 @@ router.put('/:id', async (req, res, next) => {
     }
 });
 
-// DELETE - /api/recipes/:id - delete a single recipe by id
-router.delete('/:id', async (req, res, next) => {
+// DELETE - /api/recipes/:recipeId - delete a single recipe by id
+router.delete('/recipes/:recipeId', async (req, res, next) => {
     try {
         const recipe = await deleteRecipe(req.params.id);
-        res.send(pokrecipeemon);
+        res.send(recipe);
     } catch (err) {
         next(err);
     }
