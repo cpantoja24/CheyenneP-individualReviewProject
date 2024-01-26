@@ -3,6 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { configureStore } from '@reduxjs/toolkit';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react"
+import CreateRecipeForm from "./CreateRecipeForm";
+import UpdateRecipeForm from "./UpdateRecipeForm"
 
 // Define an API using createApi
 const recipesApi = createApi({
@@ -58,6 +60,9 @@ export default function Recipes() {
   return (
     <>
       <br />
+      <CreateRecipeForm/>
+      <UpdateRecipeForm/>
+      <br />
       <div>
         <form>
           <input placeholder="Type recipe name here..."
@@ -70,7 +75,8 @@ export default function Recipes() {
           return search.toLowerCase() === '' ? recipe : recipe.name.toLowerCase().includes(search)
         }).map((recipe) => (
           <div key={recipe.recipeId} className="singleCard">
-            <h3>{recipe.name}</h3>
+            <h3>Recipe Name: {recipe.name}</h3>
+            <p>Recipe #{recipe.recipeId}</p>
             <p>{recipe.description}</p>
             <br />
             <button onClick={() => {
