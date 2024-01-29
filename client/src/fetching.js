@@ -28,7 +28,7 @@ export const fetchSingleRecipe = async (recipeId) => {
             }
         }
         fetchSingleRecipe()
-        
+
     }, [])
 };
 
@@ -61,7 +61,7 @@ export const removeRecipe = async (recipeId) => {
         const result = await response.json();
         window.location.reload();
         return result
-        
+
     } catch (err) {
         console.error(
             `Whoops, trouble removing recipe #${recipeId}!`,
@@ -101,18 +101,21 @@ export function SingleIngredient() {
 };
 
 export const removeIngredient = async (ingredientId) => {
-    try {
-        const response = await fetch(`${BASE_URL}/ingredients/${ingredientId}`, {
-            method: "DELETE"
-        });
-        const result = await response.json();
-        window.location.reload();
-        return result
-        
-    } catch (err) {
-        console.error(
-            `Whoops, trouble removing ingredient #${ingredientId}!`,
-            err
-        );
+
+    const response = await fetch(`${BASE_URL}/ingredients/${ingredientId}`, {
+        method: "DELETE"
+    });
+
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        if (errorMessage.includes('foreign key constraint')) {
+            alert(`Cannot delete ingredient #${ingredientId} because it is referenced by one or more recipes.`);
+        } else {
+            console.error(`Whoops, trouble removing ingredient #${ingredientId}!`, err);
+        }
     }
+
+    // If deletion is successful, refresh the page
+    window.location.reload();
+
 };
