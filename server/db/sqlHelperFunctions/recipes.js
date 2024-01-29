@@ -1,7 +1,6 @@
 const client = require('../client');
 const util = require('util');
 
-
 // GET - /api/recipes - get all recipes
 async function getAllRecipes() {
     try {
@@ -17,6 +16,7 @@ async function getRecipeById(id) {
     try {
         const { rows: [recipe] } = await client.query(`
             SELECT * FROM recipes
+            JOIN ingredients ON ingredients."ingredientId" = recipes."ingredientId"
             WHERE "recipeId" = $1;
         `, [id]);
         return recipe;
@@ -55,7 +55,6 @@ async function updateRecipe(id, fields = {}) {
       WHERE "recipeId"=${id}
       RETURNING *;
     `, Object.values(fields));
-
         return recipe;
     } catch (error) {
         throw error;
