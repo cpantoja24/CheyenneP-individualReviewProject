@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react"
 import CreateRecipeForm from "./CreateRecipeForm";
 import UpdateRecipeForm from "./UpdateRecipeForm"
+import { removeRecipe } from "../fetching";
 
 // Define an API using createApi
 const recipesApi = createApi({
@@ -60,16 +61,17 @@ export default function Recipes() {
   return (
     <>
       <br />
-      <CreateRecipeForm/>
-      <UpdateRecipeForm/>
+      <CreateRecipeForm />
       <br />
       <div>
         <form>
-          <input placeholder="Type recipe name here..."
+          <label> Search by recipe name:
+            <input placeholder="Type recipe name here..."
             onChange={(e) => setSearch(e.target.value)} />
+          </label>
         </form>
       </div>
-      
+
       <div className="allCards">
         {data.filter((recipe) => {
           return search.toLowerCase() === '' ? recipe : recipe.name.toLowerCase().includes(search)
@@ -78,6 +80,11 @@ export default function Recipes() {
             <h3>Recipe Name: {recipe.name}</h3>
             <p>Recipe #{recipe.recipeId}</p>
             <p>{recipe.description}</p>
+            <br />
+            <UpdateRecipeForm recipe={recipe} />
+            <br />
+            <button onClick={() => { removeRecipe(recipe.recipeId) }}>Delete Recipe</button>
+            <br />
             <br />
             <button onClick={() => {
               navigate(`/recipes/${recipe.recipeId}`)
