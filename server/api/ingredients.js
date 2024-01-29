@@ -15,9 +15,9 @@ router.get('/', async (req, res, next) => {
 });
 
 // GET - /api/ingredients/:ingredientid - get a single ingredient by id
-router.get('/ingredients/:ingredientId', async (req, res, next) => {
+router.get('/:ingredientId', async (req, res, next) => {
     try {
-        const ingredient = await getIngredientById(req.params.id);
+        const ingredient = await getIngredientById(req.params.ingredientId);
         res.send(ingredient);
     } catch (error) {
         next(error);
@@ -25,7 +25,7 @@ router.get('/ingredients/:ingredientId', async (req, res, next) => {
 });
 
 // POST - /api/ingredients - create a new ingredient
-router.post('/ingredients', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const {protein, ingredient1, ingredient2} = req.body
         const ingredient = await createIngredient({protein, ingredient1, ingredient2});
@@ -36,9 +36,9 @@ router.post('/ingredients', async (req, res, next) => {
 });
 
 // PUT - /api/ingredient/:ingredientid - update a single ingredient by id
-router.put('/ingredient/:ingredientId', async (req, res, next) => {
+router.put('/:ingredientId', async (req, res, next) => {
     try {
-        const ingredient = await updateIngredient(req.params.id, req.body);
+        const ingredient = await updateIngredient(req.params.ingredientId, req.body);
         res.send(ingredient);
     } catch (err) {
         next(err);
@@ -46,9 +46,9 @@ router.put('/ingredient/:ingredientId', async (req, res, next) => {
 });
 
 // DELETE - /api/ingredients/:ingredientId - delete a single ingredient by id
-router.delete('/ingredients/:ingredientId', async (req, res, next) => {
+router.delete('/:ingredientId', async (req, res, next) => {
     try {
-        const ingredient = await deleteIngredientById(req.params.id);
+        const ingredient = await deleteIngredientById(req.params.ingredientId);
         res.send(ingredient);
     } catch (error) {
         next(error);
