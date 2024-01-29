@@ -20,7 +20,7 @@ export default function CreateIngredientForm({ingredient}) {
                 })
             });
             const result = await response.json();
-            console.log(result);
+            window.location.reload();
             return result
         } catch (err) {
             console.error(err);
